@@ -1,6 +1,6 @@
 library(tidyverse)
 library(ggplot2)
-usairlines <- read_csv("datasets/USAirlines.csv") %>% select(-1)
+usairlines <- read_csv("rawdata/USAirlines.csv") %>% select(-1)
 usairlines
 
 # * Una vez descargado comprueba la dimensión y los nombres de las columnas del dataset. ¿Qué dimensión tiene? ¿qué tipo de datos alberga? (e.g. 4 variables numéricas continuas)
@@ -95,6 +95,38 @@ ggplot(InsectSprays, aes(x = spray, y = count)) +
 # 3)	Averigua que variables no están distribuidas de forma normal, crea gráficos que lo prueben
 
 library("ISLR")
+library("e1071")
 
+head(Carseats)
+Carseats
+
+# 1)	Encuentra que variables tienen skewness
+sapply(Carseats, class)
+
+ggplot(Carseats, aes(x = Sales)) +
+geom_histogram()
+
+#~2)	Genera dos listas, una de variables con skewness a la derecha y otra con skewness a la izquierda
+skewright <- sapply(Carseats[sapply(Carseats, is.numeric)], skewness) > 0
+skewleft <- sapply(Carseats[sapply(Carseats, is.numeric)], skewness) < 0
+
+skewright
+skewleft
+
+
+summary(Carseats)
+ggpairs(Carseats)
+
+#3)	Averigua que variables no están distribuidas de forma normal, crea gráficos que lo prueben
+
+lapply(Carseats[sapply(Carseats, is.numeric)], shapiro.test)
+#income, advertising, population, age, education no son normales, las demás sí
+
+Carseats %>% select(where(is.numeric)) %>%
+pivot_longer(cols= everything(), names_to= "variable", values_to="value") %>%
+ggplot(aes(x=value))+
+geom_histogram()+
+facet_wrap(~variable, scales="free")+
+theme_minimal()
 
 
