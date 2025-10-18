@@ -14,6 +14,14 @@ write.table(matrix(3*(1:10), ncol=1), file= "tres.txt", row.names=FALSE, col.nam
 write.table(matrix(5*(1:10), ncol=1), file= "cinco.txt", row.names=FALSE, col.names=FALSE)
 
 # 3. Escribe las cinco primeras filas de la matriz creada en el último ejercicio en un nuevo fichero llamado prime.txt y las cinco últimas en otro fichero llamado fin.txt. Ambos ficheros deben tener los datos separados por comas.
+# ...existing code...
+
+dos <- scan("dos.txt")
+tres <- scan("tres.txt")
+cinco <- scan("cinco.txt")
+tabla <- cbind(dos, tres, cinco)
+write.table(tabla[1:5, ], file="prime.txt", sep=",", row.names=FALSE, col.names=FALSE)
+write.table(tabla[6:10, ], file="fin.txt", sep=",", row.names=FALSE, col.names=FALSE)
 
 #4. Dados dos números, f y c (dados por el usuario mediante el teclado), cree una figura cuadrada de f filas y c columnas con el carácter "x" (sin espacios). Vea a continuación un ejemplo para f=4 y c=3 (notar que no hay espacios en blanco ni [1,] ni cosas raras...): 
 x <- readline("Hagamos una matriz de X! pon \"f=nfilas c=ncolumnas \"")
